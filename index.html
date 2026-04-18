@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lavender Counter</title>
+
+<style>
+/* Page setup */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  background: #cc6ab8;
+  animation: fadeIn 0.6s ease;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/*  Card */
+.container {
+  width: 90%;
+  max-width: 350px;
+  background: #cabfc8;
+  padding: 30px 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+/* Title */
+h1 {
+  margin: 0;
+  color: #7f2745;
+  font-size: 1.8rem;
+}
+
+/* Counter */
+#count {
+  font-size: 4rem;
+  margin: 20px 0;
+  color: #c50a7a;
+}
+
+/* Pop animation */
+.pop {
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Buttons layout */
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Button base */
+.btn {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/*Colors */
+.add { background: #0e7c73; color: white; }
+.sub { background: #396f9b; color: white; }
+.reset { background: #d7e32f; color: #5A4B81; }
+.save { background: #25b93b; color: #2D6A4F; }
+.load { background: #e886a0; color: #9D4EDD; }
+
+/* Hover */
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* Click effect */
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* Small screen fix */
+@media (max-width: 400px) {
+  #count {
+    font-size: 3rem;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+    padding: 10px;
+  }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Counter</h1>
+  <p id="count">0</p>
+
+  <div class="buttons">
+    <button class="btn add" onclick="increaseCount()">+</button>
+    <button class="btn sub" onclick="decreaseCount()">-</button>
+    <button class="btn reset" onclick="resetCount()">Reset</button>
+    <button class="btn save" onclick="saveCount()">Save</button>
+    <button class="btn load" onclick="loadCount()">Load</button>
+  </div>
+</div>
+
+<script>
+// Counter value
+let count = 0;
+
+// 🔄 Update with animation
+function updateCount() {
+  const counter = document.getElementById("count");
+
+  counter.innerText = count;
+
+  counter.classList.add("pop");
+
+  setTimeout(() => {
+    counter.classList.remove("pop");
+  }, 250);
+}
+
+// ➕ Increase
+function increaseCount() {
+  count++;
+  updateCount();
+}
+
+// ➖ Decrease
+function decreaseCount() {
+  count--;
+  updateCount();
+}
+
+// 🔁 Reset
+function resetCount() {
+  count = 0;
+  updateCount();
+}
+
+// 💾 Save to localStorage
+function saveCount() {
+  localStorage.setItem("count", count);
+}
+
+// 📂 Load from localStorage
+function loadCount() {
+  let saved = localStorage.getItem("count");
+
+  if (saved !== null) {
+    count = Number(saved);
+  }
+
+  updateCount();
+}
+
+// 🚀 Auto load on refresh
+window.onload = loadCount;
+</script>
+
+</body>
+</html>
